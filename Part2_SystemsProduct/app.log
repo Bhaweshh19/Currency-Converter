@@ -1,0 +1,2 @@
+2026-08-26 12:31:10,064 | INFO     | currency_converter | Converted 150.0 USD -> 127.5 EUR (base currency: USD)
+2026-08-26 12:31:29,114 | ERROR    | currency_converter | '-50' is not a valid amount. Please enter a positive number, e.g. 150 or 99.99.

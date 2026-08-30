@@ -12,7 +12,9 @@ exchange rates from an external, editable config file.
 REQUIREMENTS
 ------------
 - Python 3.8 or newer
-- No external packages required.
+- No external packages required for normal use.
+- The "requests" package is only needed for the optional --update-rates
+  live API feature. Install with: pip install -r requirements.txt
 
 
 INSTALLATION
@@ -34,6 +36,27 @@ More examples:
     python3 main.py --from eur --to inr --amount 42.50
 
 Currency codes are case-insensitive.
+
+GUI (OPTIONAL)
+--------------
+A simple graphical interface is also available:
+
+    python gui.py
+
+Enter an amount and two currency codes, click Convert. Successful
+conversions show in green; errors (bad amount, unsupported currency)
+show in red, using the same validation logic as the CLI.
+
+
+REFRESHING RATES FROM A LIVE API
+-----------------------------------
+To fetch fresh, real-world exchange rates and overwrite rates.json:
+
+    python main.py --update-rates
+
+This requires internet access and the "requests" package
+(pip install -r requirements.txt). It pulls live rates from
+https://open.er-api.com, a free service that needs no API key.
 
 
 CONFIGURING EXCHANGE RATES (rates.json)

@@ -107,3 +107,29 @@ def convert(amount, from_currency, to_currency, rates_data):
         f"(base currency: {rates_data['base']})"
     )
     return converted
+
+
+def fetch_live_rates(base="USD", save_to=RATES_FILE):
+    """
+    Fetch live exchange rates from a free API and overwrite rates.json.
+    """
+    import requests
+
+    url = f"https://open.er-api.com/v6/latest/{base}"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        payload = response.json()
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch live rates: {e}")
+        raise CurrencyConverterError(f"Could not reach the exchange rate service: {e}")
+
+    if payload.get("result") != "success":
+        raise CurrencyConverterError("The exchange rate service returned an error.")
+
+    data = {"base": payload["base_code"], "rates": payload["rates"]}
+    with open(save_to, "w") as f:
+        json.dump(data, f, indent=2)
+
+    logger.info(f"Live rates updated successfully for base currency {base}")
+    return data
